@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Symbiose - Design et développement web</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'Kumbh Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        .inner-container {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+        .btn {
+            transition: all 0.5s;
+            background-color: #fe5f55;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+        }
+
+        .btn:hover {
+            background-color: black;
+            color: white;
+        }
+
+        .btn.btn-init {
+            color: #fe5f55;
+            background-color: transparent;
+            border: 2px solid #fe5f55;
+        }
+
+        /* Main navigation */
+        .main-navigation {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            padding: 1rem;
+            z-index: 10;
+            color: white;
+        }
+        @media (max-width: 1024px) {
+            .main-navigation {
+                position: fixed;
+                color: black;
+                background-color: white;
+            }
+        }
+        .main-navigation.menu-fixed {
+            position: fixed;
+            background-color: #fe5f55;
+            transform: translateY(-100%);
+            animation: menu-appear 0.5s forwards;
+            background-color: #F7F7FF;
+            -webkit-box-shadow: 0 5px 10px 2px rgba(0,0,0, 0.25);
+            box-shadow: 0 5px 10px 2px rgba(0,0,0, 0.25);
+        }
+        @keyframes menu-appear {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(0%);
+            }
+        }
+        .main-navigation .inner-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .main-navigation .inner-container .img-container,
+        .main-navigation .inner-container .social-media {
+            width: 25%;
+        }
+        @media (max-width: 1024px) {
+            .main-navigation .inner-container .img-container {
+                z-index: 100;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        .main-navigation .inner-container .img-container .logo {
+            width: 150px;
+            margin: 0;
+        }
+        @media (max-width: 1024px) {
+            .main-navigation .inner-container .img-container .logo {
+                display: none;
+            }
+        }
+        .main-navigation .inner-container .img-container .logo-black {
+            display: none;
+        }
+        @media (max-width: 1024px) {
+            .main-navigation .inner-container .img-container .logo-black {
+                display: block;
+            }
+        }
+        .main-navigation .inner-container .img-container .toggle-menu {
+            display: none;
+            align-items: center;
+            position: relative;
+            width: 1.25rem;
+        }
+        @media (max-width: 1024px) {
+            .main-navigation .inner-container .img-container .toggle-menu {
+                display: flex;
+            }
+        }
+        .main-navigation .inner-container .img-container .toggle-menu a {
+            height: 1rem;
+            position: relative;
+            width: 100%;
+            display: block;
+        }
+        .main-navigation .inner-container .img-container .toggle-menu a.active span:first-child {
+            transform: translateY(.5rem) rotate(-45deg);
+        }
+        .main-navigation .inner-container .img-container .toggle-menu a.active span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+        .main-navigation .inner-container .img-container .toggle-menu a.active span:nth-child(3) {
+            transform: translateY(calc(-.5rem + 2px)) rotate(45deg);
+        }
+        .main-navigation .inner-container .img-container .toggle-menu a span {
+            transition: transform .5s,-webkit-transform .5s;
+            transform: rotate(0deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #000;
+            height: 2px;
+        }
+        .main-navigation .inner-container .img-container .toggle-menu span:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .main-navigation .inner-container .img-container .toggle-menu span:nth-child(3) {
+            bottom: 0;
+            top: auto;
+        }
+        .main-navigation .inner-container .navigation, .main-navigation .inner-container .social-media {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .main-navigation .inner-container .navigation {
+            width: 50%;
+            justify-content: center;
+        }
+        @media (max-width: 1024px) {
+            .main-navigation .inner-container .navigation {
+                display: flex;
+                flex-direction: column;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100vw;
+                height: 100vh;
+                background-color: white;
+                position: absolute;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.5s;
+            }
+            .main-navigation .inner-container .navigation.open {
+                pointer-events: auto;
+                opacity: 1;
+            }
+        }
+        @media (max-width: 1024px) {
+            .main-navigation .inner-container .navigation li {
+                text-align: center;
+            }
+        }
+        .main-navigation .inner-container .navigation li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+        }
+        @media (max-width: 1024px) {
+            .main-navigation .inner-container .navigation li a {
+                display: block;
+                font-size: 2rem;
+                color: black;
+            }
+        }
+        .main-navigation.menu-fixed .inner-container .navigation li a {
+            color: black;
+        }
+        .main-navigation .inner-container .social-media {
+            justify-content: flex-end;
+        }
+        @media (max-width: 1024px) {
+            .main-navigation .inner-container .social-media {
+                position: absolute;
+                left: 0;
+                top: 90vh;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                opacity: 0;
+                pointer-events: none;
+            }
+            .main-navigation .inner-container .social-media.open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+        .main-navigation .inner-container .social-media li a {
+            color: white;
+            padding: 1rem;
+        }
+        @media (max-width: 1024px) {
+            .main-navigation .inner-container .social-media li a {
+                color: black;
+                font-size: 1.25rem;
+            }
+        }
+        .main-navigation.menu-fixed .inner-container .social-media li a {
+            color: black;
+        }
+
+        /* Hero */
+        .hero-section {
+            height: 80vh;
+            position: relative;
+            background-image: url('https://images.pexels.com/photos/34140/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+            background-size: cover;
+            background-position: center;
+        }
+        .hero-section .inner-container {
+            height: 100%;
+            z-index: 2;
+        }
+        .hero-section .inner-container .main-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100%;
+            z-index: 1;
+            position: relative;
+            width: 50%;
+            padding: 0 1rem;
+        }
+        @media (max-width: 1024px) {
+            .hero-section .inner-container .main-content {
+                width: 100%;
+            }
+        }
+        .hero-section .inner-container .main-content .title {
+            margin: 0;
+            color: white;
+        }
+        .hero-section .inner-container .main-content .title.slogan {
+            font-weight: 200;
+            font-size: 1.25rem;
+        }
+        @media (max-width: 1024px) {
+            .hero-section .inner-container .main-content .title.slogan {
+                font-size: 1rem;
+                width: 75%;
+            }
+        }
+        .hero-section .inner-container .main-content .title.role {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 2rem 0;
+        }
+        @media (max-width: 1024px) {
+            .hero-section .inner-container .main-content .title.role {
+                font-size: 2rem;
+            }
+        }
+        .hero-section .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgb(87,115,153);
+            background: radial-gradient(circle, rgba(87,115,153,0.5) 0%, rgba(87,115,153,1) 64%);
+        }
+
+        /* Partners */
+        .partners-section {
+            height: 20vh;
+            background-color: #F7F7FF;
+        }
+        .partners-section .inner-container .partners-list {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            list-style-type: none;
+            margin: 0;
+            height: 100%;
+            padding: 0rem;
+        }
+        .partners-section .inner-container {
+            height: 100%;
+        }
+        .partners-section .inner-container .partners-list li {
+            height: 6rem;
+        }
+        @media (max-width: 1024px) {
+            .partners-section .inner-container .partners-list li {
+            height: 5rem;
+             }
+        }
+        .partners-section .inner-container .partners-list li img {
+            height: 100%;
+        }
+
+        /* About us */
+        .aboutus-section {
+            margin: 6rem 0;
+        }
+        @media (max-width: 1024px) {
+            .aboutus-section {
+            margin: 1rem 0;
+            }
+        }
+        .aboutus-section .inner-container {
+            display: flex;
+            flex-direction: row;   
+        }
+        @media (max-width: 1024px){
+        .aboutus-section .inner-container {
+            display: flex;
+            flex-direction: column;   
+             }
+        }
+        .aboutus-section .inner-container > div {
+              width: 50%; 
+        }
+        @media (max-width: 1024px){
+        .aboutus-section .inner-container > div {
+              width: 100%; 
+             }
+        }
+        .aboutus-section .inner-container .content {
+            padding: 5rem 0;
+        }
+        @media (max-width: 1024px){
+        .aboutus-section .inner-container .content {
+            padding: 1rem 2rem 2rem 2rem;
+         }
+        }
+        .aboutus-section .inner-container .content .section-title {
+            color: #495867;
+        }
+        .aboutus-section .inner-container .content h2 {
+            font-size: 2.5rem;
+            margin: 1.5rem 0;
+        }
+        .aboutus-section .inner-container .content .desc {
+            line-height: 1.5;
+            margin-bottom: 2rem;
+        }
+        .aboutus-section .inner-container .image {
+            background-image: url('https://images.pexels.com/photos/39284/macbook-apple-imac-computer-39284.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+            background-size: cover;
+            background-position: center;
+        }
+        .aboutus-section .inner-container .image:hover {
+            opacity: 0.5;
+            transition: .5s ease-in;
+
+        }
+
+        @media (max-width: 1024px){
+            .aboutus-section .inner-container .image {
+            background-image: url('https://images.pexels.com/photos/39284/macbook-apple-imac-computer-39284.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+            background-size: cover;
+            background-position: center;
+            height: 25rem;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+
+        /* Our team */
+        .ourteam-section {
+            margin-bottom: 6rem;
+            
+        }
+        @media (max-width: 1024px){
+        .ourteam-section {
+            margin-bottom: 2rem;
+        }
+        }
+        .ourteam-section .inner-container {
+            position: relative;
+        }
+        .ourteam-section .inner-container .background-icon {
+            position: absolute;
+            top: -8rem;
+            left: -8rem;
+            z-index: 0;
+            opacity: 0.25;
+        }
+        .ourteam-section .inner-container .section-title {
+            color: #495867;
+            z-index: 1;
+            position: relative;
+            
+        }
+        @media (max-width: 1024px){
+            .ourteam-section .inner-container .section-title {
+                padding-top: 2rem;
+                padding-left: 2rem;
+                
+            }
+        }
+        .ourteam-section .inner-container h2 {
+            font-size: 2.5rem;
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+            z-index: 1;
+            position: relative;
+        }
+        
+        @media (max-width: 1024px){
+            .ourteam-section .inner-container h2 {
+                padding: 1rem 2rem;
+                margin-bottom: 2rem;
+            }
+        }
+        .ourteam-section .inner-container .team-list {
+            display: flex;
+            justify-content: space-between;
+            list-style-type: none;
+            margin: 0;
+            z-index: 1;
+            position: relative;
+            
+        }
+
+        @media (max-width: 1024px){
+            .ourteam-section .inner-container .team-list {
+                flex-wrap: wrap;
+                padding: 0 4rem;
+                justify-content: center;
+                align-items: center;
+               
+            }
+        }
+        .ourteam-section .inner-container .team-list .member {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @media (max-width: 1024px) {
+        .ourteam-section .inner-container .team-list .member {
+            padding: 1rem 2rem;
+            
+          }
+        }
+        .ourteam-section .inner-container .team-list .member .container-image {
+            background-size: cover;
+            background-position: center;
+            height: 8rem;
+            width: 8rem;
+            border-radius: 9999px;
+        }
+        .ourteam-section .inner-container .team-list .member .content-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        .ourteam-section .inner-container .team-list .member .content-section .name {
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .ourteam-section .inner-container .team-list .member .content-section .role {
+            font-size: 0.9rem;
+            margin: 0;
+            border-top: 2px solid #577357;
+            padding-top: 0.5rem;
+        }
+        .ourteam-section .inner-container .team-list .member .content-section .social-media {
+            display: flex;
+            list-style-type: none;
+            flex-direction: row;
+            margin: 0;
+            padding: 0;
+            margin-top: 0.75rem;
+        }
+        .ourteam-section .inner-container .team-list .member .content-section .social-media li {
+            margin: 0.25rem;
+        }
+        .ourteam-section .inner-container .team-list .member .content-section .social-media li a {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* Services */
+        .services-section {
+            display: flex;
+            flex-direction: row;      
+        }
+        @media (max-width: 1024px){
+            .services-section {
+            display: flex;
+            flex-direction: column;
+            
+            }
+        }
+        .services-section > div {
+            width: 50%;
+        }
+        @media (max-width: 1024px) {
+        .services-section > div {
+            width: 100%;
+          }
+        }
+
+        .services-section .image-section {
+            background-image: url('https://images.pexels.com/photos/2058128/pexels-photo-2058128.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+            background-size: cover;
+            background-position: center;
+        }
+        @media (max-width: 1024px) {
+        .services-section .image-section {
+            background-image: url('https://images.pexels.com/photos/2058128/pexels-photo-2058128.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+            background-size: cover;
+            background-position: center;
+            height: 25rem;
+             }
+        }
+        .services-section .content-section {
+            padding: 2rem;
+        }
+        @media (max-width: 1024px) {
+        .services-section .content-section {
+            padding: 0rem
+        }
+        }
+        .services-section .content-section .section-title {
+            color: #495867;
+            padding: 1rem 2rem 0 2rem;
+        }
+        .services-section .content-section h2 {
+            font-size: 2.5rem;
+            margin-top: 1rem;
+            padding: 0 2rem;
+        }
+        .services-section .content-section .desc {
+            line-height: 1.5;
+            margin-bottom: 2rem;
+            padding: 0 2rem;
+        }
+        .services-section .content-section a {
+           margin-left: 2rem;
+        }
+
+        /* benfits sections */
+
+        .services-header {
+            text-align: center;
+            
+        }
+
+        .services-header p{
+            text-align: center;
+            padding: 0 25rem;
+            line-height: 1.2;
+            
+        }
+        .benfits-section {
+            display: flex;
+            margin: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+
+        }
+        .benfits-section .benfit
+        {
+            background-color: ;
+            width: 25%;
+            padding: 2rem;
+            margin: 1rem;
+            text-align: center;
+
+        }
+        .benfits-section .benfit p
+        {
+            padding: 0 2rem;
+
+        }
+
+        /* Projects */
+        .projects-section {
+            padding: 4rem;
+        }
+        @media (max-width: 1024px) {
+        .projects-section {
+            padding: 2rem;
+        }
+        }
+        .projects-section .inner-container .section-title {
+            color: #495867;
+        }
+        .projects-section .inner-container h2 {
+            margin-top: 1rem;
+            font-size: 2.5rem;
+        }
+        .projects-section .inner-container .filtres {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            margin-top: -5rem;    
+        }
+
+        @media (max-width: 1024px)  {
+            .projects-section .inner-container .filtres {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            margin-top: 0rem;
+            }
+        }
+        .projects-section .inner-container .filtres ul {
+            list-style-type: none;
+            display: flex;
+            flex-direction: row;
+            margin: 0;
+            padding: 0;
+        }
+        .projects-section .inner-container .filtres ul li {
+            padding: 1rem;
+        }
+        .projects-section .inner-container .filtres ul li.active {
+            color: #fe5f55
+        }
+        .projects-section .inner-container .projects-list {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 4rem;
+        }
+        .projects-section .inner-container .projects-list .project {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            margin-top: 0.35rem;
+            height: 300px;
+            overflow: hidden;
+        }
+        .projects-section .inner-container .projects-list .project:hover .infos {
+            transform: translateX(-50%) translateY(0);
+        }
+        .projects-section .inner-container .projects-list .project .infos {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            width: 95%;
+            background-color: white;
+            padding: 2rem;
+            transition: transform 0.5s;
+        }
+        .projects-section .inner-container .projects-list .project .infos p {
+            margin: 0;
+        }
+        .projects-section .inner-container .projects-list .project .infos .subtitle {
+            color: gray;
+            font-size: 1rem;
+        }
+        .projects-section .inner-container .projects-list .project .infos .title {
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+        .projects-section .inner-container .projects-list .project .infos .title a {
+            color: #577399;
+            margin-left: 0.5rem;
+        }
+
+        /* Contact */
+        .contact-section {
+            padding: 2rem;
+        }
+        .contact-section .inner-container {
+            position: relative;
+            z-index: 1;
+        }
+        .contact-section .inner-container .background-icon {
+            position: absolute;
+            top: -8rem;
+            right: -8rem;
+            z-index: 0;
+            opacity: 0.25;
+            transform: rotate(90deg);
+        }
+        .contact-section .inner-container .section-title {
+            color: #495867;
+        }
+        .contact-section .inner-container h2 {
+            margin-top: 1rem;
+            font-size: 2.5rem;
+        }
+        .contact-section .inner-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .contact-section .inner-container form input[type="text"], .contact-section .inner-container form textarea {
+            font-family: 'Kumbh Sans', sans-serif;
+            border: 1px solid black;
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            resize: none;
+            margin-bottom: 1rem;
+            background-color: white;
+            z-index: 1;
+        }
+        .contact-section .inner-container form textarea {
+            height: 10rem;
+        }
+        .copyright {
+            text-align: center;
+        }
+        @media (max-width: 1024px){
+            .copyright {
+            text-align: center;
+            padding: 0.5rem 2rem;
+             }
+        }
+    
+            
+        
+    </style>
+</head>
+    <body>
+        <nav class="main-navigation">
+            <div class="inner-container">
+                <div class="img-container">
+                    <img class="logo logo-black" src="logo.png">
+                    <img class="logo" src="logo-white.png">
+                    <div class="toggle-menu">
+                        <a href="#" class="btn-toggle-menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </a>
+                    </div>
+                </div>
+                <ul class="navigation">
+                    <li><a href="#" class="btn-about">À propos</a></li>
+                    <li><a href="#" class="btn-team">Équipe</a></li>
+                    <li><a href="#" class="btn-services">Services</a></li>
+                    <li><a href="#" class="btn-projects">Projets</a></li>
+                    <li><a href="#" class="btn-contact">Contact</a></li>
+                </ul>
+                <ul class="social-media">
+                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                </ul>
+           
+        </nav>
+        <div class="hero-section">
+            <div class="inner-container">
+                <div class="main-content">
+                    <h3 class="title slogan">Nous vous ouvrons les portes pour le web</h3>
+                    <h2 class="title role">Développement web et idées innovantes</h2>
+                    <a href="#" class="btn">En savoir plus</a>
+                </div>
+            </div>
+            <div class="overlay">
+            </div>
+        </div>
+        <div class="partners-section">
+            <div class="inner-container">
+                <ul class="partners-list">
+                    <li><img src="./camp-des-arts.png"></li>
+                    <li><img src="./orchestre.png"></li>
+                    <li><img src="./vue-sur-la-releve.png"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="aboutus-section">
+            <div class="inner-container">
+                <div class="content">
+                    <p class="section-title">À propos de nous</p>
+                    <h2>Commune en design et développement web</h2>
+                    <p class="desc">Nous sommes une jeune commune web composée de jeunes entrepreneurs passionnés par le design et le développement de sites web. Vous avez un projet et vous voulez en discuter? Contactez-nous!</p>
+                    <a href="#" class="btn btn-contact">Contactez-nous</a>
+                </div>
+                <div class="image"></div>
+            </div>
+        </div>
+        <div class="ourteam-section">
+            <div class="inner-container">
+                <img class="background-icon" src="logo-circle.png">
+                <p class="section-title">Notre équipe</p>
+                <h2>Nos talents à l'état brute</h2>
+                <div class="team-list">
+                    <div class="member">
+                        <div class="container-image" style="background-image: url('https://media-exp1.licdn.com/dms/image/C4E03AQEBeWdrtFNX5Q/profile-displayphoto-shrink_200_200/0?e=1605139200&v=beta&t=aA29M0ERbWvq8TDyzJStadb0m6fkgrP97bCeDo0LSbM');">
+                        </div>
+                        <div class="content-section">
+                            <p class="name">Laurent Jeanson</p>
+                            <p class="role">Développeur Front-End</p>
+                            <ul class="social-media">
+                                <li><a href="https://ca.linkedin.com/in/laurent-jeanson-390b32152" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="member">
+                        <div class="container-image" style="background-image: url('https://media-exp1.licdn.com/dms/image/C4D03AQFlg_LVMno9sQ/profile-displayphoto-shrink_200_200/0?e=1605139200&v=beta&t=qw6JeaWJPNN7z0-nPOoBMZkb4pHXEBsTkcOQHqNW3t4');">
+                        </div>
+                        <div class="content-section">
+                            <p class="name">Jason Paquette</p>
+                            <p class="role">Développeur Front-End</p>
+                            <ul class="social-media">
+                                <li><a href="https://ca.linkedin.com/in/jason-paquette-085b2a137" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="member">
+                        <div class="container-image" style="background-image: url('https://media-exp1.licdn.com/dms/image/C5603AQGYhWE2TlNLNQ/profile-displayphoto-shrink_200_200/0?e=1605139200&v=beta&t=v4j2ipyslUVE_o0ErPJT_XnbRzQawkVuhadro45LyNQ');">
+                        </div>
+                        <div class="content-section">
+                            <p class="name">Kevin Paquette</p>
+                            <p class="role">Développeur Full Stack</p>
+                            <ul class="social-media">
+                                <li><a href="https://ca.linkedin.com/in/kevin-paquette-8b843b110" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                                <li><a href="http://kevinpaquette.ca/" target="_blank"><i class="fas fa-location-arrow"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="member">
+                        <div class="container-image" style="background-image: url(thomas-picture.png);">
+                        </div>
+                        <div class="content-section">
+                            <p class="name">Thomas Vermette</p>
+                            <p class="role">Stagiaire</p>
+                            <ul class="social-media">
+                                <li><a href="https://ca.linkedin.com/" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="services-section">
+            <div class="image-section"></div>
+            <div class="content-section">
+                <p class="section-title">Nos services</p>
+                <h2>Créons quelque chose ensemble</h2>
+                <p class="desc">Notre commune s'est donnée la mission d'aider les entreprises d'ici de continuer à prospérer sur le web, sans les désavantages d'une agence. Nous vous accompagnons tout le long du processus de la création du site web, de la mise en ligne et de la maintenance.</p>
+                <a href="#" class="btn btn-contact">Contactez-nous</a>
+            </div>
+        </div>
+      
+        <div class="benfits-section">
+            <div class="services-header">
+                <h2> Our Services we provide </h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo amet recusandae sapiente aliquam quisquam exercitationem rerum eveniet atque velit alias omnis deserunt dolor incidunt unde facilis explicabo culpa laborum excepturi, sit quos magnam ab? Cum quod eligendi laudantium veniam saepe, molestiae ullam tempore possimus qui!</p>
+            </div>
+                <div class="benfit">
+                    <i class="fas fa-server fa-3x"></i>
+                    <h3>Hosting</h3>
+                    <p>We take care of all your server side needs with our simple hosting solutions</p>
+                 </div>
+                <div class="benfit">
+                    <i class="fas fa-search-location fa-3x"></i>
+                    <h3>Seo</h3>
+                    <p>We take care of all your server side needs with our simple hosting solutions</p>
+                 </div>
+                <div class="benfit">
+                    <i class="fas fa-broom fa-3x "></i>
+                    <h3>Maintenance</h3>
+                    <p>We take care of all your server side needs with our simple hosting solutions</p>
+                 </div>
+                <div class="benfit">
+                    <i class="fas fa-user-cog fa-3x"></i>
+                    <h3>Custom sites</h3>
+                    <p>We take care of all your server side needs with our simple hosting solutions</p>
+                 </div>
+                <div class="benfit">
+                    <i class="fas fa-shopping-bag fa-3x"></i>
+                    <h3>E-commerce</h3>
+                    <p>We take care of all your server side needs with our simple hosting solutions</p>
+                 </div>
+                <div class="benfit">
+                    <i class="fas fa-mobile-alt fa-3x"></i>
+                    <h3>Moblie responsive</h3>
+                    <p>We take care of all your server side needs with our simple hosting solutions</p>
+                 </div>
+        </div>
+        <div class="projects-section">
+            <div class="inner-container">
+                <p class="section-title">Nos projets</p>
+                <h2>Notre travail</h2>
+                <div class="filtres">
+                    <ul>
+                        <li class="active">Tout</li>
+                        <li>Site Web</li>
+                    </ul>
+                    <a href="#" class="btn btn-init">Réinitialiser</a>
+                </div>
+                <div class="projects-list">
+                    <div class="project" style="background-image: url('./projects/ojmryo.jpg');">
+                        <div class="infos">
+                            <p class="subtitle">Développement Web</p>
+                            <p class="title">OJMRYO <a href="https://ojmryo.com/" target="_blank"><i class="fas fa-link"></i></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="contact-section">
+            <div class="inner-container">
+                <img class="background-icon" src="logo-circle.png">
+                <p class="section-title">Contact</p>
+                <h2>Parlez-nous</h2>
+                <form>
+                    <input type="text" placeholder="Nom" name="name">
+                    <input type="text" placeholder="Courriel" name="email">
+                    <input type="text" placeholder="Sujet" name="object">
+                    <textarea placeholder="On vous écoute..."></textarea>
+                </form>
+            </div>
+        </div>
+        <h5 class="copyright">Copyright ©2020 Tous les droits réservés | Site web réalisé par <a href="#">Symbiose</a></h5>
+        <script>
+            (function() {
+                window.addEventListener("scroll", function() {
+                    if(window.innerWidth > 1024) {
+                        if(window.pageYOffset > 75) {
+                            document.querySelector(".main-navigation").classList.add("menu-fixed");
+                            document.querySelector(".logo:not(.logo-black)").setAttribute("src", "logo.png");
+                        } else {
+                            document.querySelector(".main-navigation").classList.remove("menu-fixed");
+                            document.querySelector(".logo:not(.logo-black)").setAttribute("src", "logo-white.png");
+                        }
+                    }
+                });
+                document.querySelector(".btn-toggle-menu").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    document.querySelector(".navigation").classList.toggle("open");
+                    document.querySelector(".social-media").classList.toggle("open");
+                    this.classList.toggle("active");
+                });
+                document.querySelector(".btn-about").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    document.querySelector(".aboutus-section").scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                    reInitMenu();
+                });
+                document.querySelector(".btn-team").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    document.querySelector(".ourteam-section").scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                    reInitMenu();
+                });
+                document.querySelector(".btn-services").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    document.querySelector(".services-section").scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                    reInitMenu();
+                });
+                document.querySelector(".btn-projects").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    document.querySelector(".projects-section").scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                    reInitMenu();
+                });
+                let allContactBtn = document.querySelectorAll(".btn-contact");
+                allContactBtn.forEach(element => {
+                    element.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        document.querySelector(".contact-section").scrollIntoView({ 
+                            behavior: 'smooth' 
+                        });
+                    });
+                    reInitMenu();
+                });
+
+                function reInitMenu() {
+                    document.querySelector(".navigation").classList.remove("open");
+                    document.querySelector(".social-media").classList.remove("open");
+                    document.querySelector(".btn-toggle-menu").classList.remove("active");
+                }
+            })();
+        </script>
+    </body>
+</html>
